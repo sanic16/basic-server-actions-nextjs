@@ -48,6 +48,10 @@ export default async function EditSnippetPage({
   //     redirect("/");
   //   };
 
+  await new Promise((resolve) => {
+    setTimeout(resolve, 10000);
+  });
+
   return (
     <div className="min-h-screen p-4">
       <BackButton />

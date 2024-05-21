@@ -14,5 +14,5 @@ datasource db {
 model Snippet {
   id    Int    @id @default(autoincrement())
   title String
-  code  String
+  code  String @db.Text
 }
