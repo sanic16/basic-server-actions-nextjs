@@ -1,6 +1,6 @@
 import BackButton from "@/app/components/BackButton";
 import PrimaryButton from "@/app/components/PrimaryButton";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
 
@@ -15,7 +15,7 @@ export default async function SnippetShowPage(props: SnippetShowPageProps) {
   if (isNaN(Number(snippetId))) {
     throw new Error("Invalid snippet ID, must be an integer");
   }
-  const snippet = await db.snippet.findUnique({
+  const snippet = await prisma.snippet.findUnique({
     where: {
       id: Number(snippetId),
     },
@@ -28,7 +28,7 @@ export default async function SnippetShowPage(props: SnippetShowPageProps) {
 
   const deleteSnippetAction = async () => {
     "use server";
-    await db.snippet.delete({
+    await prisma.snippet.delete({
       where: {
         id: snippet.id,
       },
@@ -69,7 +69,7 @@ export default async function SnippetShowPage(props: SnippetShowPageProps) {
 }
 
 export async function generateStaticParams() {
-  const snippets = await db.snippet.findMany();
+  const snippets = await prisma.snippet.findMany();
 
   return snippets.map((snippet) => {
     return {

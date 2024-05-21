@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export default async function HomePage() {
-  const snippets = await db.snippet.findMany();
+  const snippets = await prisma.snippet.findMany();
 
   const renderedSnippets = snippets.map((snippet) => (
     <div

@@ -1,11 +1,11 @@
 'use server'
 
-import { db } from "@/lib/prisma"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
+import prisma from "@/lib/prisma"
 
 export async function editSnippetAction(id: number, code: string){
-    await db.snippet.update({
+    await prisma.snippet.update({
         where: {
             id
         },
@@ -38,7 +38,7 @@ export async function createSnippet(formState: {message: string}, formData: Form
 
     try {
         // Create a new snippet in the database
-    const snippet = await db.snippet.create({
+    const snippet = await prisma.snippet.create({
         data: {
           title,
           code,

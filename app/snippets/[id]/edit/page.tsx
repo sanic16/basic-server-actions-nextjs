@@ -1,5 +1,5 @@
 import BackButton from "@/app/components/BackButton";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import SnippetEditForm from "@/app/components/SnippetEditForm";
@@ -17,7 +17,7 @@ export default async function EditSnippetPage({
     throw new Error("Invalid ID");
   }
 
-  const snippet = await db.snippet.findUnique({
+  const snippet = await prisma.snippet.findUnique({
     where: {
       id: parseInt(params.id),
     },
@@ -78,4 +78,14 @@ export default async function EditSnippetPage({
       <SnippetEditForm snippet={snippet} />
     </div>
   );
+}
+
+export async function generateStaticParams() {
+  const updateSnippets = await prisma.snippet.findMany();
+
+  return updateSnippets.map((snippet) => {
+    return {
+      id: snippet.id.toString(),
+    };
+  });
 }
